@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   Table,
   Button,
@@ -10,23 +10,31 @@ import {
   InputNumber,
   Space,
   Popconfirm,
-} from 'antd';
-import axios from 'axios';
-import { ApiResponse, Student, StudentForm } from './types';
+  Select,
+} from "antd";
+import axios from "axios";
+import { ApiResponse, Student, StudentForm } from "./types";
 
 export default function Home() {
   const [students, setStudents] = useState<Student[]>([]);
+  const [masters, setMasters] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [form] = Form.useForm<StudentForm>();
 
   const fetchStudents = async () => {
-    const res = await axios.get<ApiResponse<Student[]>>('/api/students');
+    const res = await axios.get<ApiResponse<Student[]>>("/api/students");
     setStudents(res.data.data);
+  };
+
+  const fetchMasters = async () => {
+    const res = await axios.get<any>("/api/master");
+    setMasters(res.data);
   };
 
   useEffect(() => {
     fetchStudents();
+    // fetchMasters();
   }, []);
 
   // ✅ ADD / UPDATE
@@ -36,7 +44,7 @@ export default function Home() {
     if (editingStudent) {
       await axios.put(`/api/students/${editingStudent.id}`, values);
     } else {
-      await axios.post('/api/students', values);
+      await axios.post("/api/students", values);
     }
 
     await fetchStudents(); // 🔥 MUST await
@@ -77,12 +85,12 @@ export default function Home() {
   };
 
   const columns = [
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Email', dataIndex: 'email' },
-    { title: 'Age', dataIndex: 'age' },
-    { title: 'Number', dataIndex: 'number' },
+    { title: "Name", dataIndex: "name" },
+    { title: "Email", dataIndex: "email" },
+    { title: "Age", dataIndex: "age" },
+    { title: "Number", dataIndex: "number" },
     {
-      title: 'Action',
+      title: "Action",
       render: (_: any, record: Student) => (
         <Space>
           <Button onClick={() => handleEdit(record.id)}>Edit</Button>
@@ -128,7 +136,7 @@ export default function Home() {
       <Modal
         title={
           <span className="text-lg font-semibold">
-            {editingStudent ? '✏ Edit Student' : '➕ Add Student'}
+            {editingStudent ? "✏ Edit Student" : "➕ Add Student"}
           </span>
         }
         open={open}
@@ -137,7 +145,7 @@ export default function Home() {
           setEditingStudent(null);
         }}
         onOk={handleSubmit}
-        okText={editingStudent ? 'Update' : 'Create'}
+        okText={editingStudent ? "Update" : "Create"}
         destroyOnHidden
       >
         <Form form={form} layout="vertical">
@@ -148,13 +156,13 @@ export default function Home() {
           <Form.Item
             name="email"
             label="Email"
-            rules={[{ required: true, type: 'email' }]}
+            rules={[{ required: true, type: "email" }]}
           >
             <Input placeholder="Enter email" />
           </Form.Item>
 
           <Form.Item name="age" label="Age" rules={[{ required: true }]}>
-            <InputNumber style={{ width: '100%' }} placeholder="Enter age" />
+            <InputNumber style={{ width: "100%" }} placeholder="Enter age" />
           </Form.Item>
 
           <Form.Item
@@ -164,6 +172,23 @@ export default function Home() {
           >
             <Input placeholder="Enter phone number" />
           </Form.Item>
+          {/* <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select"
+              options={masters.roles}
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              allowClear
+              showSearch={{
+                filterOption: (input, option) =>
+                  (option?.name ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase()),
+              }}
+            />
+          </Form.Item> */}
         </Form>
       </Modal>
     </div>
