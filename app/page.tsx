@@ -181,12 +181,13 @@ export default function Home() {
                 value: "id",
               }}
               allowClear
-              showSearch={{
-                filterOption: (input, option) =>
-                  (option?.name ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase()),
-              }}
+              showSearch={{ optionFilterProp: "name" }}
+              // showSearch={{
+              //   filterOption: (input, option) =>
+              //     (option?.name ?? "")
+              //       .toLowerCase()
+              //       .includes(input.toLowerCase()),
+              // }}
             />
           </Form.Item> */}
         </Form>
