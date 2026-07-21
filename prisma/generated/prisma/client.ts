@@ -51,3 +51,8 @@ export type Student = Prisma.StudentModel
  * 
  */
 export type Role = Prisma.RoleModel
+/**
+ * Model Employee
+ * 
+ */
+export type Employee = Prisma.EmployeeModel

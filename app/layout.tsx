@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next CRUD",
-  description: "Next CRUD",
+  title: {
+    default: "Inventory Management",
+    template: "%s | Inventory Management",
+  },
+  description: "Inventory Management System built with Next.js",
 };
 
 export default function RootLayout({
@@ -25,9 +28,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-screen bg-slate-100 antialiased">
+        {children}
+      </body>
     </html>
   );
 }

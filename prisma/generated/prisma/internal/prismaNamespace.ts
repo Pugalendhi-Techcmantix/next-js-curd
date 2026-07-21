@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Student: 'Student',
-  Role: 'Role'
+  Role: 'Role',
+  Employee: 'Employee'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "student" | "role"
+    modelProps: "student" | "role" | "employee"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -537,6 +538,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Employee: {
+      payload: Prisma.$EmployeePayload<ExtArgs>
+      fields: Prisma.EmployeeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EmployeeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EmployeeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload>
+        }
+        findFirst: {
+          args: Prisma.EmployeeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EmployeeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload>
+        }
+        findMany: {
+          args: Prisma.EmployeeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload>[]
+        }
+        create: {
+          args: Prisma.EmployeeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload>
+        }
+        createMany: {
+          args: Prisma.EmployeeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.EmployeeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload>
+        }
+        update: {
+          args: Prisma.EmployeeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload>
+        }
+        deleteMany: {
+          args: Prisma.EmployeeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EmployeeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.EmployeeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeePayload>
+        }
+        aggregate: {
+          args: Prisma.EmployeeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEmployee>
+        }
+        groupBy: {
+          args: Prisma.EmployeeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EmployeeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EmployeeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EmployeeCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -600,6 +667,24 @@ export const RoleScalarFieldEnum = {
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
 
 
+export const EmployeeScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  email: 'email',
+  phoneNumber: 'phoneNumber',
+  age: 'age',
+  passwordHash: 'passwordHash',
+  fairPassword: 'fairPassword',
+  profileImage: 'profileImage',
+  roleId: 'roleId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -622,6 +707,26 @@ export const RoleOrderByRelevanceFieldEnum = {
 } as const
 
 export type RoleOrderByRelevanceFieldEnum = (typeof RoleOrderByRelevanceFieldEnum)[keyof typeof RoleOrderByRelevanceFieldEnum]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const EmployeeOrderByRelevanceFieldEnum = {
+  username: 'username',
+  email: 'email',
+  phoneNumber: 'phoneNumber',
+  passwordHash: 'passwordHash',
+  fairPassword: 'fairPassword',
+  profileImage: 'profileImage'
+} as const
+
+export type EmployeeOrderByRelevanceFieldEnum = (typeof EmployeeOrderByRelevanceFieldEnum)[keyof typeof EmployeeOrderByRelevanceFieldEnum]
 
 
 
@@ -754,6 +859,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   student?: Prisma.StudentOmit
   role?: Prisma.RoleOmit
+  employee?: Prisma.EmployeeOmit
 }
 
 /* Types for Logging */
