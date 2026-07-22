@@ -1,58 +1,63 @@
 "use client";
 
-import { Button, Card, Form, Input } from "antd";
+import { login, setToken } from "@/app/lib/auth";
+import jwtAxios from "@/app/lib/jwtAxios";
+import { Button, Card, Form, Input, message } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   const onFinish = async (values: any) => {
-    console.log(values);
+    try {
+      setLoading(true);
+      const res = await jwtAxios.post("/auth/login", values);
 
-    // Later
+      setToken(res.data.data.token);
 
-    // const res = await jwtAxios.post("/auth/login", values);
+      message.success(res.data.message);
+      login(res.data.data.token, res.data.data.user);
 
-    // setToken(res.data.token);
-
-    // router.push("/dashboard");
+      router.push("/dashboard");
+    } catch (error: any) {
+      message.error(error.response?.data?.message);
+      const errorList = error?.response?.data?.errors || {};
+      form.setFields(
+        Object.keys(values).map((field) => ({ name: field, errors: [] })),
+      );
+      const validationErrors = Object.entries(errorList).map(
+        ([fieldName, messages]) => ({
+          name: fieldName,
+          errors: messages as string[],
+        }),
+      );
+      form.setFields(validationErrors);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Card
-      title="Login"
-      className="w-full max-w-md shadow-xl rounded-xl"
-    >
+    <Card title="Login" className="w-full max-w-md shadow-xl rounded-xl">
       <Form
         form={form}
         layout="vertical"
         onFinish={onFinish}
         autoComplete="off"
       >
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true },
-            { type: "email" },
-          ]}
-        >
+        <Form.Item label="Email" name="email">
           <Input placeholder="Enter email" />
         </Form.Item>
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true }]}
-        >
+        <Form.Item label="Password" name="password">
           <Input.Password placeholder="Enter password" />
         </Form.Item>
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          block
-        >
+        <Button type="primary" htmlType="submit" block loading={loading}>
           Login
         </Button>
 

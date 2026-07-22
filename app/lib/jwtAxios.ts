@@ -3,7 +3,6 @@ import { getToken, logout } from "./auth";
 
 const jwtAxios = axios.create({
   baseURL: "/api",
-  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -20,7 +19,7 @@ jwtAxios.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response Interceptor
@@ -32,7 +31,7 @@ jwtAxios.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default jwtAxios;

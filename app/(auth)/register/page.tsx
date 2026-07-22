@@ -20,22 +20,22 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [option1, setOption1] = useState([]);
 
-  useEffect(() => {
-    jwtAxios.get("/master").then((res) => {
-      const { roles } = res.data;
-      setOption1(
-        (roles ?? []).map((option: any) => ({
-          value: option.id,
-          label: option.name,
-        })),
-      );
-    });
-  }, []);
+  // useEffect(() => {
+  //   jwtAxios.get("/master").then((res) => {
+  //     const { roles } = res.data;
+  //     setOption1(
+  //       (roles ?? []).map((option: any) => ({
+  //         value: option.id,
+  //         label: option.name,
+  //       })),
+  //     );
+  //   });
+  // }, []);
 
   const onFinish = async (values: any) => {
     setLoading(true);
     await jwtAxios
-      .post("/employees", values)
+      .post("/auth/register", values)
       .then((res) => {
         message.success(res.data.message);
         form.resetFields();
@@ -102,7 +102,7 @@ export default function RegisterPage() {
             <Input.Password placeholder="Confirm password" />
           </Form.Item>
 
-          <Form.Item name="role_id" label="Role">
+          {/* <Form.Item name="role_id" label="Role">
             <Select
               allowClear
               placeholder="Select"
@@ -112,7 +112,7 @@ export default function RegisterPage() {
               //   option?.label?.toLowerCase()?.includes(input?.toLowerCase())
               // }
             />
-          </Form.Item>
+          </Form.Item> */}
 
           <Button htmlType="submit" type="primary" block>
             Register

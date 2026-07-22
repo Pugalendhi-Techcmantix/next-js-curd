@@ -1,19 +1,5 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/app/lib/prisma";
-export async function GET() {
-  const employees = await prisma.employee.findMany({
-    include: {
-      role: true,
-    },
-    orderBy: {
-      id: "asc",
-    },
-  });
-
-  return Response.json({
-    data: employees,
-  });
-}
 
 export async function POST(req) {
   try {
@@ -27,19 +13,12 @@ export async function POST(req) {
     }
 
     // 2. Validate Age
-    if (
-      body.age === undefined ||
-      body.age === null ||
-      body.age === ""
-    ) {
+    if (body.age === undefined || body.age === null || body.age === "") {
       errors.age = ["Age is required"];
     }
 
     // 3. Validate Phone Number
-    if (
-      !body.phone_number ||
-      body.phone_number.trim() === ""
-    ) {
+    if (!body.phone_number || body.phone_number.trim() === "") {
       errors.phone_number = ["Phone number is required"];
     }
 
@@ -49,13 +28,13 @@ export async function POST(req) {
     }
 
     // 5. Validate Role
-    if (
-      body.role_id === undefined ||
-      body.role_id === null ||
-      body.role_id === ""
-    ) {
-      errors.role_id = ["Role is required"];
-    }
+    // if (
+    //   body.role_id === undefined ||
+    //   body.role_id === null ||
+    //   body.role_id === ""
+    // ) {
+    //   errors.role_id = ["Role is required"];
+    // }
 
     // 6. Validate Email
     if (!body.email || body.email.trim() === "") {
@@ -77,9 +56,10 @@ export async function POST(req) {
       return Response.json(
         {
           status: false,
+          message: "Validation Error",
           errors,
         },
-        { status: 422 }
+        { status: 422 },
       );
     }
     const hashedPassword = await bcrypt.hash(body.password, 10);
@@ -97,15 +77,11 @@ export async function POST(req) {
 
         passwordHash: hashedPassword,
 
-        fairPassword: body.password
-          ? String(body.password)
-          : null,
+        fairPassword: body.password ? String(body.password) : null,
 
-        profileImage: body.profile_image
-          ? String(body.profile_image)
-          : null,
+        profileImage: body.profile_image ? String(body.profile_image) : null,
 
-        roleId: Number(body.role_id),
+        roleId: 3,
       },
 
       include: {
@@ -124,7 +100,7 @@ export async function POST(req) {
         status: false,
         error: error.message,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
