@@ -67,7 +67,7 @@ export default function RegisterPage() {
       title="Create Account"
       className="w-full max-w-md shadow-xl rounded-xl"
     >
-      <Spin spinning={loading} tip="Creating Account">
+      <Spin spinning={loading} description="Creating Account">
         <Form
           form={form}
           layout="vertical"
